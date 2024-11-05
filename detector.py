@@ -1,5 +1,5 @@
 import numpy as np
-from mmdet3d.apis import MultiModalityDet3D_Inferencer, LidarDet3DInferencer
+from mmdet3d.apis import LidarDet3DInferencer
 from mmdet3d.structures import LiDARInstance3DBoxes
 
 class Detector:
