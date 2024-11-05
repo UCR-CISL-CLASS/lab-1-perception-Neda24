@@ -1,3 +1,7 @@
+import numpy as np
+from mmdet3d.apis import multimodalityDet3DInferencer, LidarDet3DInferencer
+from mmdet3d.structures import LiDARInstance3DBoxes
+
 class Detector:
     def __init__(self):
         # Add your initialization logic here
@@ -54,6 +58,42 @@ class Detector:
                 det_score : numpy.ndarray
                     The confidence score for each predicted bounding box, shape (N, 1) corresponding to the above bounding box.
         """
-        return {}
+        config_file = carla/pointpillars_hv_secfpn_8xb6-160e_kitti-3d-car.py
+        checkpoint_file = carla/hv_pointpillars_secfpn_6x8_160e_kitti-3d-car_20220331_134606-d42d15ed.pth
+        inferencer = LidarDet3DInferencer (config_file. checkpoint_file,device = 'cuda:0' )
+        print("Initialized model")
+        images = []
+        lidar_data = None
+        for sensor_id, (frame_id, data)in sensor_data.items() 
+            if sensor_id == 'LIDAR':
+                  lidar_data = data
+
+        results = inferencer ({"points":lidar_data})  
+        det_boxes = []
+        det_score = []
+        det_class = [] 
+
+        preds = results ['predictions']
+
+        for result in preds:
+            bbox = LiDARInstance3DBoxes(result['bboxes_3d'])
+            det_boxes.append(np.array(bbox.corners).astype(int))  
+            for label in result['labels_3d']:
+                det_class.append(label)
+            for score in result['scores_3d']:
+                 det_score.append(score)
+
+                 det_boxes = np.array(det_boxes).reshape (-1,8,3)
+                 det_score = np.array(det_score).reshape (-1, 1)
+                 det_class = np.array(det_class).reshape(-1, 1)
+
+                import pdb; pdb.aset_trace()
+            
+
+                return {
+                    'det_boxes': det_boxes,
+                    'det_score': det_score,
+                    'det_cllass': det_class
+                }
 
     
