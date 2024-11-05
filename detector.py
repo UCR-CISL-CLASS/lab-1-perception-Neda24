@@ -67,7 +67,7 @@ class Detector:
                     The confidence score for each predicted bounding box, shape (N, 1) corresponding to the above bounding box.
         """
         config_file = '/home/user/carla/lab-1-Neda24/lab-1-perception-Neda24/mmdetection3d/configs/pointpillars/pointpillars_hv_secfpn_8xb6-160e_kitti-3d-car.py'
-        checkpoint_file = 'hv_pointpillars_secfpn_6x8_160e_kitti-3d-car_20220331_134606-d42d15ed.pth'
+        checkpoint_file = '/home/user/carla/lab-1-Neda24/lab-1-perception-Neda24/hv_pointpillars_secfpn_6x8_160e_kitti-3d-car_20220331_134606-d42d15ed.pth'
         inferencer = LidarDet3DInferencer (config_file, checkpoint_file,device = 'cuda:0' )
         print("Initialized model")
 
