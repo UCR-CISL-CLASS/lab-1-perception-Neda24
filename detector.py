@@ -66,10 +66,11 @@ class Detector:
                 det_score : numpy.ndarray
                     The confidence score for each predicted bounding box, shape (N, 1) corresponding to the above bounding box.
         """
-        config_file = 'pointpillars_hv_secfpn_8xb6-160e_kitti-3d-car.py'
+        config_file = '/home/user/carla/lab-1-Neda24/lab-1-perception-Neda24/mmdetection3d/configs/pointpillars/pointpillars_hv_secfpn_8xb6-160e_kitti-3d-car.py'
         checkpoint_file = 'hv_pointpillars_secfpn_6x8_160e_kitti-3d-car_20220331_134606-d42d15ed.pth'
         inferencer = LidarDet3DInferencer (config_file, checkpoint_file,device = 'cuda:0' )
         print("Initialized model")
+
         images = []
         lidar_data = None
         for sensor_id, (frame_id, data)in sensor_data.items(): 
@@ -99,7 +100,7 @@ class Detector:
                  det_score = np.array(det_score).reshape (-1, 1)
                  
 
-            import pdb; pdb.aset_trace()
+            import pdb; pdb.set_trace()
             
 
             return {
