@@ -30,11 +30,19 @@ class Detector:
 
         """
         sensors = [
+            {'type': 'sensor.camera.rgb', 'x': 0.7, 'y': -0.4, 'z': 1.60, 'roll': 0.0, 'pitch': 0.0, 'yaw': 0.0,
+                      'width': 1280, 'height': 720, 'fov': 100, 'id': 'Left'},
+
+            {'type': 'sensor.camera.rgb', 'x': 0.7, 'y': 0.4, 'z': 1.60, 'roll': 0.0, 'pitch': 0.0, 'yaw': 0.0,
+                      'width': 1280, 'height': 720, 'fov': 100, 'id': 'Right'},
+
             {'type': 'sensor.lidar.ray_cast', 'x': 0.7, 'y': 0.0, 'z': 1.60, 'yaw': 0.0, 'pitch': 0.0, 'roll': 0.0,
                       'range': 50, 
                       'rotation_frequency': 20, 'channels': 64,
                       'upper_fov': 4, 'lower_fov': -20, 'points_per_second': 2304000,
                       'id': 'LIDAR'},
+
+            {'type': 'sensor.other.gnss', 'x': 0.7, 'y': -0.4, 'z': 1.60, 'id': 'GPS'}
         ]
 
         return sensors
@@ -60,18 +68,21 @@ class Detector:
         """
         config_file = 'pointpillars_hv_secfpn_8xb6-160e_kitti-3d-car.py'
         checkpoint_file = 'hv_pointpillars_secfpn_6x8_160e_kitti-3d-car_20220331_134606-d42d15ed.pth'
-        inferencer = LidarDet3DInferencer (config_file. checkpoint_file,device = 'cuda:0' )
+        inferencer = LidarDet3DInferencer (config_file, checkpoint_file,device = 'cuda:0' )
         print("Initialized model")
         images = []
         lidar_data = None
         for sensor_id, (frame_id, data)in sensor_data.items(): 
-            if sensor_id == 'LIDAR':
+            if sensor_id in ['left', 'right']:
+                images.append(data[:, :, :3])
+            elif sensor_id == 'LIDAR':
                   lidar_data = data
 
         results = inferencer ({"points":lidar_data})  
         det_boxes = []
+        det_class = []
         det_score = []
-        det_class = [] 
+         
 
         preds = results ['predictions']
 
@@ -84,8 +95,9 @@ class Detector:
                  det_score.append(score)
 
                  det_boxes = np.array(det_boxes).reshape (-1,8,3)
-                 det_score = np.array(det_score).reshape (-1, 1)
                  det_class = np.array(det_class).reshape(-1, 1)
+                 det_score = np.array(det_score).reshape (-1, 1)
+                 
 
             import pdb; pdb.aset_trace()
             
