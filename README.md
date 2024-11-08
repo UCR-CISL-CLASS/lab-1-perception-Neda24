@@ -1,4 +1,5 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/w3FoW0fO)
-# EE260C_LAB1: Perception
+# Lab 1: Perception
+# EE260 Introduction to self-driving stack
+## Objective
 
-Please refer to the instructions [here](https://docs.google.com/document/d/1BvQ9ztEvxDwsHv-RWEy2EOA7kdAonzdkbJIuQSB1nJI/edit?usp=sharing)
+This lab implements the perception module with a focus on 3D detection. The goal is to detect 3D bounding boxes around traffic participants using single or multiple modality sensors. The solution will be evaluated against ground truth in CARLA.
