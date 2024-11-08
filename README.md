@@ -55,8 +55,8 @@ sensors = [
 ### Part 3: Integrate a pretrained perception model
 
 Detect function takes an input argument “sensor_data” and output detection results. This part fills in this function with a pre-trained perception model.
-Itried MM3D unsuccessfully due to problems with the GPU machone.
-Thereofre I used FasterRCNN pretrained object detector from PyTorch and added it to carla.
+I tried MM3D unsuccessfully due to problems with the GPU machine.
+Therefore, I used FasterRCNN pretrained object detector from PyTorch and added it to carla.
 I manipulated the sensor data to be suitable for the FasterRCNN model.
 
 
