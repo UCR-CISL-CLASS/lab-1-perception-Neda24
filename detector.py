@@ -1,6 +1,9 @@
 import numpy as np
-from mmdet3d.apis import LidarDet3DInferencer
-from mmdet3d.structures import LiDARInstance3DBoxes
+import torchvision
+from torchvision.models.detection import fasterrcnn_resnet50_fpn
+from torchvision.transforms import functional as F
+import pdb
+
 
 class Detector:
     def __init__(self):
@@ -47,6 +50,10 @@ class Detector:
 
         return sensors
 
+    #load the pre-trained model
+    model = fasterrcnn_resnet50_fpn(pretrained=True)
+
+
     def detect(self, sensor_data):
         """
         Add your detection logic here
@@ -66,11 +73,6 @@ class Detector:
                 det_score : numpy.ndarray
                     The confidence score for each predicted bounding box, shape (N, 1) corresponding to the above bounding box.
         """
-        config_file = '/home/user/carla/lab-1-Neda24/lab-1-perception-Neda24/mmdetection3d/configs/pointpillars/pointpillars_hv_secfpn_8xb6-160e_kitti-3d-car.py'
-        checkpoint_file = '/home/user/carla/lab-1-Neda24/lab-1-perception-Neda24/hv_pointpillars_secfpn_6x8_160e_kitti-3d-car_20220331_134606-d42d15ed.pth'
-        inferencer = LidarDet3DInferencer (config_file, checkpoint_file,device = 'cuda:0' )
-        print("Initialized model")
-
         images = []
         lidar_data = None
         for sensor_id, (frame_id, data)in sensor_data.items(): 
@@ -79,7 +81,9 @@ class Detector:
             elif sensor_id == 'LIDAR':
                   lidar_data = data
 
-        results = inferencer ({"points":lidar_data})  
+        image= F.to_tensor(images)
+        results = fasterrcnn_resnet50_fpn([image])
+
         det_boxes = []
         det_class = []
         det_score = []
@@ -88,25 +92,27 @@ class Detector:
         preds = results ['predictions']
 
         for result in preds:
-            bbox = LiDARInstance3DBoxes(result['bboxes_3d'])
+            bbox = fasterrcnn_resnet50_fpn(result['bboxes_3d'])
             det_boxes.append(np.array(bbox.corners).astype(int))  
             for label in result['labels_3d']:
                 det_class.append(label)
             for score in result['scores_3d']:
                  det_score.append(score)
 
-                 det_boxes = np.array(det_boxes).reshape (-1,8,3)
-                 det_class = np.array(det_class).reshape(-1, 1)
-                 det_score = np.array(det_score).reshape (-1, 1)
-                 
+        det_boxes = np.array(det_boxes).reshape (-1,8,3)
+        det_class = np.array(det_class).reshape(-1, 1)
+        det_score = np.array(det_score).reshape (-1, 1)
 
-            import pdb; pdb.set_trace()
-            
+        import pdb; pdb.set_trace()
 
-            return {
+        return {
                     'det_boxes': det_boxes,
-                    'det_score': det_score,
-                    'det_cllass': det_class
-                }
+                    'det_score': det_class,
+                    'det_cllass': det_score
+        }         
+        
+
+        
+        return {}
 
     
