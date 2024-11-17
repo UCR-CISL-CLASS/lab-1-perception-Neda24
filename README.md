@@ -59,11 +59,11 @@ I tried MM3D unsuccessfully due to problems with the GPU machine.
 Therefore, I used FasterRCNN pretrained object detector from PyTorch and added it to carla.
 I manipulated the sensor data to be suitable for the FasterRCNN model.
 
+![Screenshot 2024-11-17 at 3 28 00 PM](https://github.com/user-attachments/assets/a06a2943-0b4d-4a90-9db7-f9f9eb47ad6b)
 
-![Screenshot 2024-11-07 at 4 48 55 PM](https://github.com/user-attachments/assets/e8167acc-0541-4dbf-ade2-de360eb5e74a)
+![Screenshot 2024-11-17 at 3 28 20 PM](https://github.com/user-attachments/assets/f438c5df-4411-4213-9d91-e928e7eb668f)
 
-![Screenshot 2024-11-07 at 4 57 11 PM](https://github.com/user-attachments/assets/ddbc54e5-9f97-4405-8757-30395e8bf397)
-
+![Screenshot 2024-11-17 at 3 28 33 PM](https://github.com/user-attachments/assets/53ef2d7a-010a-40ee-8f21-18f3a9018db5)
 
 
 
